@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE files
+.vscode/
+.idea/
+
+# Local raw dataset (keep the summary JSON and models, ignore the raw 16MB CSV)
+weatherHistory.csv
+
+# OS files
+.DS_Store
+Thumbs.db

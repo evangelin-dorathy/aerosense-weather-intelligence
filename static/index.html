@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroSense | Weather Intelligence & Predictive Analytics</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i data-lucide="wind" class="icon-logo"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>AeroSense</h1>
+                    <span>WEATHER INTELLIGENCE</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-view="trends">
+                    <i data-lucide="line-chart"></i>
+                    <span>Trends Analytics</span>
+                </button>
+                <button class="nav-item" data-view="predictions">
+                    <i data-lucide="cpu"></i>
+                    <span>Predictive Engine</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">AS</div>
+                    <div class="info">
+                        <p class="name">Szegedi Dataset</p>
+                        <p class="role">96,455 Observations</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2 id="view-title">Dashboard Overview</h2>
+                    <p id="view-subtitle" class="text-secondary">Real-time summaries and intelligence profiles.</p>
+                </div>
+                <div class="header-right">
+                    <div class="date-badge">
+                        <i data-lucide="calendar"></i>
+                        <span id="current-date">July 2, 2026</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Inner Content -->
+            <div class="content-body">
+                
+                <!-- TOP GRID STATS (Always visible on dashboard, but can be customized) -->
+                <section class="summary-grid" id="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-temp">
+                            <i data-lucide="thermometer"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Average Temperature</span>
+                            <h3 class="stat-value" id="stat-avg-temp">--.-°C</h3>
+                            <span class="stat-trend trend-neutral">Historical Mean</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-max-temp">
+                            <i data-lucide="flame"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Highest Recorded</span>
+                            <h3 class="stat-value" id="stat-max-temp">--.-°C</h3>
+                            <span class="stat-trend trend-up">Peak Temperature</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-rain">
+                            <i data-lucide="cloud-rain"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Rainfall Probability</span>
+                            <h3 class="stat-value" id="stat-rain-ratio">--.-%</h3>
+                            <span class="stat-trend trend-down">Overall Likelihood</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-clear">
+                            <i data-lucide="sun"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Clear Sky Days</span>
+                            <h3 class="stat-value" id="stat-clear-ratio">--.-%</h3>
+                            <span class="stat-trend trend-up">Days with High Sun</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 1: DASHBOARD -->
+                <div class="view-panel active" id="view-dashboard">
+                    <div class="dashboard-hero">
+                        <div class="hero-content">
+                            <h3>Predictive Weather Intelligence</h3>
+                            <p>AeroSense utilizes machine learning models trained on over a decade of weather history observations from Szeged, Hungary. Explore historical patterns and forecast next-day conditions dynamically.</p>
+                            <button class="btn btn-primary" onclick="switchView('predictions')">
+                                <span>Launch Predictive Engine</span>
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="hero-illustration">
+                            <div class="weather-sphere"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-details-grid">
+                        <div class="info-card glass-panel">
+                            <h4><i data-lucide="shield-check"></i> Predictive Architecture</h4>
+                            <ul class="features-list">
+                                <li>
+                                    <strong>Rainfall Classifier</strong>
+                                    <span>Predicts if it will rain using temperature, apparent temperature, humidity, pressure, and wind speed features.</span>
+                                </li>
+                                <li>
+                                    <strong>Next-Day Temp Forecaster</strong>
+                                    <span>Uses daily aggregated time-series lag features (T-1, T-2, T-3) to regress next-day average temperature.</span>
+                                </li>
+                                <li>
+                                    <strong>Weather Classifier</strong>
+                                    <span>Multi-class classification categorizing weather into 4 major conditions: Clear, Cloudy, Rainy, or Foggy.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="info-card glass-panel">
+                            <h4><i data-lucide="database"></i> Szegedi Weather Dataset</h4>
+                            <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.6;">
+                                Szeged is one of the sunniest cities in Hungary, often called the "City of Sunshine". The historical dataset spanning 2006-2016 contains hourly records of:
+                            </p>
+                            <div class="metrics-tags">
+                                <span class="tag">Temperature</span>
+                                <span class="tag">Apparent Temp</span>
+                                <span class="tag">Humidity</span>
+                                <span class="tag">Wind Speed</span>
+                                <span class="tag">Wind Bearing</span>
+                                <span class="tag">Visibility</span>
+                                <span class="tag">Pressure</span>
+                            </div>
+                            <p class="text-secondary" style="font-size: 0.85rem; margin-top: 1rem;">
+                                This frontend connects to a lightweight Flask REST backend. ML models are serialized using Pickle.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: TRENDS ANALYTICS -->
+                <div class="view-panel" id="view-trends">
+                    <div class="charts-grid">
+                        <!-- Chart 1: Yearly Average Temperature -->
+                        <div class="chart-card glass-panel col-span-2">
+                            <div class="chart-header">
+                                <h4>Yearly Temperature Trends</h4>
+                                <span class="badge">Line Regression</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="yearlyTempChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 2: Monthly Temperature Box Plot Averages -->
+                        <div class="chart-card glass-panel">
+                            <div class="chart-header">
+                                <h4>Monthly Temperature Ranges</h4>
+                                <span class="badge">Min / Avg / Max</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="monthlyTempChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 3: Seasonal Weather Profile -->
+                        <div class="chart-card glass-panel">
+                            <div class="chart-header">
+                                <h4>Seasonal Weather Profile</h4>
+                                <span class="badge">Radar Analytics</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="seasonalRadarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Chart 4: Rainfall Occurrences -->
+                        <div class="chart-card glass-panel col-span-2">
+                            <div class="chart-header">
+                                <h4>Monthly Rainfall Probability</h4>
+                                <span class="badge">Precipitation Likelihood</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="monthlyRainChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ML LIVE PREDICTIONS -->
+                <div class="view-panel" id="view-predictions">
+                    <div class="predictions-grid">
+                        <!-- Inputs Panel -->
+                        <div class="predictions-form-card glass-panel">
+                            <div class="form-header">
+                                <h4>Environmental Indicators</h4>
+                                <p class="text-secondary">Provide current physical metrics to trigger model inference.</p>
+                            </div>
+                            
+                            <form id="prediction-form" class="prediction-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="temperature">Temperature (°C)</label>
+                                        <input type="number" step="0.1" id="temperature" name="temperature" value="15.0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="apparent_temperature">Apparent Temp (°C)</label>
+                                        <input type="number" step="0.1" id="apparent_temperature" name="apparent_temperature" value="14.5" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="humidity">Humidity (0 to 1)</label>
+                                        <input type="number" step="0.01" min="0" max="1" id="humidity" name="humidity" value="0.65" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wind_speed">Wind Speed (km/h)</label>
+                                        <input type="number" step="0.1" min="0" id="wind_speed" name="wind_speed" value="12.0" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="pressure">Pressure (millibars)</label>
+                                        <input type="number" step="0.1" min="800" max="1100" id="pressure" name="pressure" value="1013.2" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visibility">Visibility (km)</label>
+                                        <input type="number" step="0.1" min="0" id="visibility" name="visibility" value="10.0" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-divider">Time-Series History (Lag Days)</div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="prev_temp_1">Temp (T-1) Avg (°C)</label>
+                                        <input type="number" step="0.1" id="prev_temp_1" name="prev_temp_1" value="14.2" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prev_temp_2">Temp (T-2) Avg (°C)</label>
+                                        <input type="number" step="0.1" id="prev_temp_2" name="prev_temp_2" value="13.8" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prev_temp_3">Temp (T-3) Avg (°C)</label>
+                                        <input type="number" step="0.1" id="prev_temp_3" name="prev_temp_3" value="13.5" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-submit" id="btn-predict">
+                                    <span>Generate Intelligence</span>
+                                    <i data-lucide="zap"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Results Panel -->
+                        <div class="predictions-result-card">
+                            <div class="result-placeholder" id="result-placeholder">
+                                <div class="pulse-icon">
+                                    <i data-lucide="cpu" class="glow-animation"></i>
+                                </div>
+                                <h4>Awaiting Engine Run</h4>
+                                <p class="text-secondary">Input weather factors and click "Generate Intelligence" to see predictive outcomes.</p>
+                            </div>
+
+                            <div class="result-details hidden" id="result-details">
+                                <div class="result-card-header">
+                                    <h4>Prediction Output</h4>
+                                    <span class="badge badge-success">INFERENCE COMPLETED</span>
+                                </div>
+
+                                <div class="prediction-cards-container">
+                                    <!-- Weather Classification Card -->
+                                    <div class="pred-card card-class animate-up">
+                                        <div class="pred-header">
+                                            <span class="pred-title">Weather Condition</span>
+                                            <i data-lucide="cloud-sun" class="pred-icon icon-class-type" id="class-icon"></i>
+                                        </div>
+                                        <div class="pred-value" id="pred-class-value">Cloudy</div>
+                                        <p class="pred-desc">Categorized weather state based on atmospheric indicators.</p>
+                                        <div class="probability-bars" id="class-probs-container">
+                                            <!-- Probability bars inserted via JavaScript -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Rainfall Prediction Card -->
+                                    <div class="pred-card card-rain animate-up delay-1">
+                                        <div class="pred-header">
+                                            <span class="pred-title">Rain Probability</span>
+                                            <i data-lucide="droplets" class="pred-icon"></i>
+                                        </div>
+                                        <div class="gauge-container">
+                                            <div class="radial-gauge">
+                                                <svg viewBox="0 0 100 100">
+                                                    <circle cx="50" cy="50" r="42" class="gauge-bg"></circle>
+                                                    <circle cx="50" cy="50" r="42" class="gauge-fill" id="gauge-fill-circle"></circle>
+                                                </svg>
+                                                <div class="gauge-text" id="pred-rain-value">0%</div>
+                                            </div>
+                                        </div>
+                                        <p class="pred-desc" style="text-align: center; margin-top: 0.5rem;">Chance of precipitation in the current hour.</p>
+                                    </div>
+
+                                    <!-- Temperature Forecaster Card -->
+                                    <div class="pred-card card-temp animate-up delay-2">
+                                        <div class="pred-header">
+                                            <span class="pred-title">Next-Day Forecast</span>
+                                            <i data-lucide="thermometer-sun" class="pred-icon"></i>
+                                        </div>
+                                        <div class="temp-dial">
+                                            <div class="temp-dial-value" id="pred-temp-value">15.2°C</div>
+                                            <div class="temp-comparison">
+                                                <i data-lucide="trending-up" id="temp-trend-icon"></i>
+                                                <span id="temp-trend-text">+0.2°C from current</span>
+                                            </div>
+                                        </div>
+                                        <p class="pred-desc">Predicted 24h average temperature using lag regressor.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
